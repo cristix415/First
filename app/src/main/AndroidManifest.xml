@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Carti"></activity>
+        <activity android:name=".TextActivity"></activity>
+        <activity android:name=".VersetActivity" />
+        <activity android:name=".CapitoleActivity" />
+        <activity android:name=".Carti" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
