@@ -37,7 +37,7 @@ public class CapitoleActivity extends AppCompatActivity implements View.OnClickL
         for (int i=1;i<=Referinta.NrCapitole;i++)
         {
             b= new Button(this);
-            b.setText(i+"");
+            b.setText("Cap. " +i);
             b.setId(i);
             b.setOnClickListener(this);
             GradientDrawable gd = new GradientDrawable();

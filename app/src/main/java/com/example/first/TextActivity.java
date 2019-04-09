@@ -39,7 +39,7 @@ public class TextActivity extends AppCompatActivity {
             t.setText(Html.fromHtml("<html><body style='text-align:justify;'><font color=red size=1>" + "   " + i +
                     "</font> <font color=black size=10>" + verset + "</font></body></html>"));
 
-
+            cc.moveToNext();
 //            linLayout.addView(t, lpView);
             linearLayout.addView(t);
         }
