@@ -2,52 +2,44 @@ package com.example.first;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.TextView;
+
+import com.google.android.flexbox.FlexboxLayout;
 
 public class CapitoleActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ScrollView scrollId;
+    FlexboxLayout flexLayout;
+    TextView referintaText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capitole);
 
-        LinearLayout linearLayout = new LinearLayout(this);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        //  scrollId =  new ScrollView(this  );
-        scrollId =  findViewById(R.id.scroll_id);
+        flexLayout = findViewById(R.id.linearLayout);
+        referintaText = findViewById(R.id.referintaText);
+        referintaText.setText(Referinta.CarteText);
 
+        // frameLayout.setNumColumns(GridView.AUTO_FIT);
+        //   frameLayout.setColumnWidth(70);
 
-        Intent intent = getIntent();
-      //  String message = intent.getStringExtra("message");    Bundle bundle = intent.getExtras();
-
-        // 5. get status value from bundle
-//        Integer capitole = Integer.parseInt( bundle.getString("Capitole"));
-//Referinta  referinta = (Referinta) intent.getSerializableExtra("referinta");
-//Log.d("CArte", ((Referinta) referinta).CarteText);
         Button b;
-        for (int i=1;i<=Referinta.NrCapitole;i++)
-        {
-            b= new Button(this);
-            b.setText("Cap. " +i);
+        for (int i = 1; i <= Referinta.NrCapitole; i++) {
+            b = new Button(this);
+            b.setText("Cap. " + i);
             b.setId(i);
             b.setOnClickListener(this);
-            GradientDrawable gd = new GradientDrawable();
-            gd.setColor(0xFF00FF00); // Changes this drawbale to use a single color instead of a gradient
-            gd.setCornerRadius(7);
-            gd.setStroke(1, 0xFF000000);
-            b.setBackgroundDrawable(gd);
-            linearLayout.addView(b);
+            b.setBackgroundResource(R.drawable.button_carte);
+
+            //RelativeLayout.Relati layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            //relativeLayout.setMargins(100,30,100,30);
+            flexLayout.addView(b);
         }
-        scrollId.addView(linearLayout);
 
     }
 
@@ -55,8 +47,8 @@ public class CapitoleActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         v.setBackgroundColor(Color.RED);
 //        Referinta.CarteId = Integer.parseInt( v.getTag().toString());
-       Referinta.Capitol = String.valueOf(v.getId());
-       Log.e("hhhh", Referinta.Capitol+"");
+        Referinta.Capitol = String.valueOf(v.getId());
+        Log.e("hhhh", Referinta.Capitol + "");
         Intent intent = new Intent(this, VersetActivity.class);
         // 2. put key/value data
 

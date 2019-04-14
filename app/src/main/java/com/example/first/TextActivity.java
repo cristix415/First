@@ -1,10 +1,14 @@
 package com.example.first;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -12,11 +16,22 @@ public class TextActivity extends AppCompatActivity {
 
     private SQLiteDatabase db;
     private TextView t;
+    TextView carteActionbar, capitolActionbar;
+    Button cautaActionbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.custom_actionbar);
+        cautaActionbar = findViewById(R.id.cautaactionbar);
+
+        carteActionbar = findViewById(R.id.carteactionbar);
+        capitolActionbar = findViewById(R.id.capitolactionbar);
+        carteActionbar.setText(Referinta.CarteText);
+        capitolActionbar.setText(":" + Referinta.Capitol);
+
         LinearLayout linearLayout = findViewById(R.id.linearLayout);
         db = openOrCreateDatabase("/data/data/com.example.first/databases/robible.db", MODE_PRIVATE, null);
 
@@ -44,4 +59,12 @@ public class TextActivity extends AppCompatActivity {
             linearLayout.addView(t);
         }
     }
+
+    public void DisplayCarti(View v) {
+        Intent startIntent = new Intent(this, Carti.class);
+        // startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startIntent);
+    }
+
+
 }
