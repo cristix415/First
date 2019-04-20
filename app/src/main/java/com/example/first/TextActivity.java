@@ -1,60 +1,61 @@
 package com.example.first;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TextActivity extends AppCompatActivity {
 
-    private SQLiteDatabase db;
     private TextView t;
     TextView carteActionbar, capitolActionbar;
     Button cautaActionbar;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text);
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.custom_actionbar);
-        cautaActionbar = findViewById(R.id.cautaactionbar);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        //      getSupportActionBar().setCustomView(R.layout.custom_actionbar);
+        /*cautaActionbar = findViewById(R.id.cautaactionbar);
 
         carteActionbar = findViewById(R.id.carteactionbar);
         capitolActionbar = findViewById(R.id.capitolactionbar);
-        carteActionbar.setText(Referinta.CarteText);
+        carteActionbar.setText(Referinta.Short_name);
         capitolActionbar.setText(":" + Referinta.Capitol);
-
+*/
         LinearLayout linearLayout = findViewById(R.id.linearLayout);
-        db = openOrCreateDatabase("/data/data/com.example.first/databases/robible.db", MODE_PRIVATE, null);
 
-        Cursor cc = db.rawQuery("select * from rotext where bible=" + Referinta.CarteId + " and chapter=" + Referinta.Capitol + "", null);
-        //     Toast.makeText(this, "Car: " + nrcarte + " " + "Cap." + nrcapitol + "Vers." + cc.getCount(), Toast.LENGTH_LONG).show();
-        cc.moveToFirst();
 
         // versetetext[i]= c.getString(c.getColumnIndex("poemtext"));
 
-        for (int i = 1; i <= cc.getCount(); i++) {
+        for (int i = 1; i <= Referinta.ListVerses.size(); i++) {
 
-            String verset = cc.getString(cc.getColumnIndex("poemtext"));
+            // String verset = cc.getString(cc.getColumnIndex("poemtext"));
             t = new TextView(this);
             //t.setText(i + ". " + versetetext[i]);
             t.setId(i);
             //  t.setTag(i + " " + message);
-            t.setTextSize(18);
-
+            //t.setTextSize(18);
+            //        String versetul = Referinta.ListVerses.get(i-1);
+//t.setText(Html.fromHtml(versetul));
 
             t.setText(Html.fromHtml("<html><body style='text-align:justify;'><font color=red size=1>" + "   " + i +
-                    "</font> <font color=black size=10>" + verset + "</font></body></html>"));
+                    "</font> <font color=black size=10>" + Referinta.ListVerses.get(i - 1) + "</font></body></html>"));
 
-            cc.moveToNext();
+
 //            linLayout.addView(t, lpView);
             linearLayout.addView(t);
         }
@@ -66,5 +67,24 @@ public class TextActivity extends AppCompatActivity {
         startActivity(startIntent);
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        MenuItem.OnActionExpandListener onActionExpandListener = new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                Toast.makeText(TextActivity.this, "Action View Expender", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                Toast.makeText(TextActivity.this, "Action View Collapsed", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        };
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchItem.setOnActionExpandListener(onActionExpandListener);
+        return true;
+    }
 
 }

@@ -4,27 +4,32 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.flexbox.FlexboxLayout;
 
 public class CapitoleActivity extends AppCompatActivity implements View.OnClickListener {
-
+    BibleHelper bibliaInstance;
     FlexboxLayout flexLayout;
     TextView referintaText;
-
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capitole);
-
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         flexLayout = findViewById(R.id.linearLayout);
         referintaText = findViewById(R.id.referintaText);
-        referintaText.setText(Referinta.CarteText);
+        referintaText.setText(Referinta.Short_name);
 
+        bibliaInstance = BibleHelper.getInstance(CapitoleActivity.this);
         // frameLayout.setNumColumns(GridView.AUTO_FIT);
         //   frameLayout.setColumnWidth(70);
 
@@ -47,20 +52,35 @@ public class CapitoleActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         v.setBackgroundColor(Color.RED);
 //        Referinta.CarteId = Integer.parseInt( v.getTag().toString());
-        Referinta.Capitol = String.valueOf(v.getId());
-        Log.e("hhhh", Referinta.Capitol + "");
+        Referinta.Capitol = v.getId();
+        Referinta.ListVerses = bibliaInstance.GetVersete(Referinta.BookNumber, v.getId());
+
+
         Intent intent = new Intent(this, VersetActivity.class);
-        // 2. put key/value data
-
-        //   intent.putExtra("referinta", referinta );
-        //  intent.putExtra("message",  capitole[1]);
-
-        // 3. or you can add data to a bundle
 
 
-        // 5. start the activity
         startActivity(intent);
         finish();
 
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        MenuItem.OnActionExpandListener onActionExpandListener = new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                Toast.makeText(CapitoleActivity.this, "Action View Expender", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                Toast.makeText(CapitoleActivity.this, "Action View Collapsed", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        };
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchItem.setOnActionExpandListener(onActionExpandListener);
+        return true;
     }
 }
