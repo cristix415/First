@@ -8,8 +8,10 @@ import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,20 +29,14 @@ public class TextActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        //      getSupportActionBar().setCustomView(R.layout.custom_actionbar);
-        /*cautaActionbar = findViewById(R.id.cautaactionbar);
-
-        carteActionbar = findViewById(R.id.carteactionbar);
-        capitolActionbar = findViewById(R.id.capitolactionbar);
-        carteActionbar.setText(Referinta.Short_name);
-        capitolActionbar.setText(":" + Referinta.Capitol);
-*/
         LinearLayout linearLayout = findViewById(R.id.linearLayout);
 
+        AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
 
-        // versetetext[i]= c.getString(c.getColumnIndex("poemtext"));
-
+        // txtView.startAnimation(fadeOut);
+        fadeIn.setDuration(4000);
+        fadeIn.setFillAfter(true);
+        final ScrollView scroll = findViewById(R.id.scroll_id);
         for (int i = 1; i <= Referinta.ListVerses.size(); i++) {
 
             // String verset = cc.getString(cc.getColumnIndex("poemtext"));
@@ -48,16 +44,20 @@ public class TextActivity extends AppCompatActivity {
             //t.setText(i + ". " + versetetext[i]);
             t.setId(i);
             //  t.setTag(i + " " + message);
-            //t.setTextSize(18);
-            //        String versetul = Referinta.ListVerses.get(i-1);
-//t.setText(Html.fromHtml(versetul));
+            t.setTextSize(18);
 
             t.setText(Html.fromHtml("<html><body style='text-align:justify;'><font color=red size=1>" + "   " + i +
                     "</font> <font color=black size=10>" + Referinta.ListVerses.get(i - 1) + "</font></body></html>"));
 
 
-//            linLayout.addView(t, lpView);
+            //      linLayout.addView(t, lpView);
             linearLayout.addView(t);
+            if (i == Referinta.Verset) {
+                t.startAnimation(fadeIn);
+
+                t.getParent().requestChildFocus(t, t);
+                //    scroll.scrollTo(100, (int) t.getY());
+            }
         }
     }
 

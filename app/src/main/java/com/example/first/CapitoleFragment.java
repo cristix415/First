@@ -17,10 +17,15 @@ import com.google.android.flexbox.FlexboxLayout;
  */
 public class CapitoleFragment extends Fragment {
     View rootView;
+    ILegatura callback;
 
     public CapitoleFragment() {
 
         // Required empty public constructor
+    }
+
+    public void setLegatura(ILegatura callback) {
+        this.callback = callback;
     }
 
 
@@ -51,11 +56,6 @@ public class CapitoleFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        // shouldRefreshOnResume = true;
-    }
 
     public void updateArticleView(int position) {
         Log.e("daaaaaaaaa", "reusiiit");
@@ -65,9 +65,12 @@ public class CapitoleFragment extends Fragment {
     public void update() {
         if (rootView == null)
             rootView = getView();
-        FlexboxLayout linearCapitole = (FlexboxLayout) rootView.findViewById(R.id.linearCapitole);
+        FlexboxLayout linearCapitole = (FlexboxLayout) rootView.findViewById(R.id.linear);
+        linearCapitole.removeAllViews();
         //  linearLayoutNpull.addView(new Button(getActivity()));
         //  bibliaInstance = BibleHelper.getInstance(getContext());
+        Referinta.Verset = 0;
+        Referinta.ListVerses.clear();
 
         for (int i = 1; i <= Referinta.NrCapitole; i++) {
             Button b = new Button(getActivity());
@@ -77,18 +80,19 @@ public class CapitoleFragment extends Fragment {
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Referinta.BookNumber = v.getId();
-                    Referinta.Short_name = ((Button) v).getText().toString();
+                    Referinta.Capitol = v.getId();
+                    Referinta.ListVerses = BibleHelper.getInstance(getContext()).GetVersete(Referinta.BookNumber, v.getId());
+                    callback.onArticleSelected(Referinta.NrCapitole, 2);
+
                     // Referinta.NrCapitole =  bibliaInstance.SetNrCapitole(v.getId());
-                    ((Carti) getActivity()).setCurrentItem(1, true);
+                    ((Carti) getActivity()).setCurrentItem(2, true);
 //
                 }
             });
 
-            //RelativeLayout.Relati layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            //relativeLayout.setMargins(100,30,100,30);
             linearCapitole.addView(b);
         }
 
     }
+
 }

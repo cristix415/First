@@ -10,12 +10,19 @@ public class Referinta implements Serializable {
 
     static String Short_name;
     static String Long_name;
-     static int NrCapitole;
-    static int Capitol;
-    static int Verset;
+    static int NrCapitole = 0;
+    static int Capitol = 0;
+    static int Verset = 0;
      static String VersetText;
     static List<String> ListVerses = new ArrayList<String>();
 
 
+    public static void ClearReferinta() {
+        Capitol = 0;
+        Verset = 0;
+        ListVerses.clear();
+        BookNumber = 0;
+        VersetText = "";
 
+    }
 }

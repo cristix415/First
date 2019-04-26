@@ -5,14 +5,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,9 +18,11 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Carti extends AppCompatActivity implements CartiFragment.OnHeadlineSelectedListener {
-    BibleHelper bibliaInstance;
-    LinearLayout linearLayoutVechiull, linearLayoutNpull;
+public class Carti extends AppCompatActivity implements ILegatura {
+
+    CartiFragment cartiFragment;
+    CapitoleFragment capitoleFragment;
+    VerseteFragment verseteFragment;
     private TabLayout tabLayout;
     private ViewPagerAdapter adapter;
     private ViewPager viewPager;
@@ -31,44 +31,78 @@ public class Carti extends AppCompatActivity implements CartiFragment.OnHeadline
     @Override
     public void onAttachFragment(Fragment fragment) {
         if (fragment instanceof CartiFragment) {
-            CartiFragment headlinesFragment = (CartiFragment) fragment;
-            headlinesFragment.setOnHeadlineSelectedListener(this);
+            cartiFragment = (CartiFragment) fragment;
+            cartiFragment.setLegatura(this);
+            //  capitoleFragment = null;
+            //  verseteFragment = null;
+        }
+        if (fragment instanceof CapitoleFragment) {
+            capitoleFragment = (CapitoleFragment) fragment;
+            capitoleFragment.setLegatura(this);
+            cartiFragment = null;
+            //  verseteFragment = null;
+        }
+        if (fragment instanceof VerseteFragment) {
+            verseteFragment = (VerseteFragment) fragment;
+            verseteFragment.setLegatura(this);
+            cartiFragment = null;
+            // capitoleFragment = null;
         }
     }
 
-    public void onArticleSelected(int position) {
+    public void onArticleSelected(int position, int nivel) {
         // The user selected the headline of an article from the HeadlinesFragment
         // Do something here to display that article
         Log.e("fragmentCarti", "Activity" + position);
-        CapitoleFragment articleFrag = (CapitoleFragment)
-                getSupportFragmentManager().findFragmentById(R.id.fragmentcapitole);
+        if (nivel == 1) {
+            //   capitoleFragment = (CapitoleFragment)getSupportFragmentManager().findFragmentById(R.id.fragmentcapitole);
+            //    if (capitoleFragment != null)
 
-        if (articleFrag != null) {
-            // If article frag is available, we're in two-pane layout...
-
-            // Call a method in the ArticleFragment to update its content
-            articleFrag.updateArticleView(position);
-        } else {
-            // Otherwise, we're in the one-pane layout and must swap frags...
-
-            // Create fragment and give it an argument for the selected article
-            CapitoleFragment newFragment = new CapitoleFragment();
-            Bundle args = new Bundle();
-            args.putInt("position", position);
-            newFragment.setArguments(args);
-
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            //   articleFrag.updateArticleView(position);
-
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.linearCapitole, newFragment);
-            transaction.addToBackStack(null);
-//newFragment.updateArticleView(position);
-            // Commit the transaction
-            transaction.commit();
-            String ff = "hh";
+            capitoleFragment.updateArticleView(position);
+//            else {
+//                CapitoleFragment newFragment = new CapitoleFragment();
+//                Bundle args = new Bundle();
+//                args.putInt("position", position);
+//                newFragment.setArguments(args);
+//
+//                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//                //   articleFrag.updateArticleView(position);
+//
+//                // Replace whatever is in the fragment_container view with this fragment,
+//                // and add the transaction to the back stack so the user can navigate back
+//                transaction.replace(R.id.linear, newFragment);
+//                transaction.addToBackStack(null);
+////newFragment.updateArticleView(position);
+//                // Commit the transaction
+//                transaction.commit();
+//                String ff = "hh";
+//            }
+        } else if (nivel == 2) {
+//            verseteFragment = (VerseteFragment)
+//                    getSupportFragmentManager().findFragmentById(R.id.fragmentversete);
+//            if (verseteFragment != null)
+            verseteFragment.updateArticleView(position);
+//            else {
+//                VerseteFragment newFragment = new VerseteFragment();
+//                Bundle args = new Bundle();
+//                args.putInt("position", position);
+//                newFragment.setArguments(args);
+//
+//                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//                //   articleFrag.updateArticleView(position);
+//
+//                // Replace whatever is in the fragment_container view with this fragment,
+//                // and add the transaction to the back stack so the user can navigate back
+//                transaction.replace(R.id.linearV, newFragment);
+//                transaction.addToBackStack(null);
+////newFragment.updateArticleView(position);
+//                // Commit the transaction
+//                transaction.commit();
+//                String ff = "hh";
+//            }
         }
+
+
     }
 
     @Override
