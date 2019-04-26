@@ -51,6 +51,7 @@ public class TextActivity extends AppCompatActivity {
 
 
             //      linLayout.addView(t, lpView);
+
             linearLayout.addView(t);
             if (i == Referinta.Verset) {
                 t.startAnimation(fadeIn);
