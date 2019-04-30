@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import java.util.Map;
+
 
 public class CartiFragment extends Fragment {
     ILegatura callback;
@@ -36,11 +38,16 @@ public class CartiFragment extends Fragment {
         linearLayoutNoul = (LinearLayout) rootView.findViewById(R.id.linearLayoutNoul);
         bibliaInstance = BibleHelper.getInstance(getContext());
         Referinta.NrCapitole = 0;
-        for (int i = 1; i <= 66; i++) {
+
+
+        for (Map.Entry<Integer, String> entry : BibleHelper.dictShort.entrySet()) {
+            Integer key = entry.getKey();
+            String value = entry.getValue();
+
 
             Button b = new Button(getActivity());
-            b.setText(bibliaInstance.carti[i]);
-            b.setId(bibliaInstance.booknumber[i]);
+            b.setText(value);
+            b.setId(key);
 
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -55,13 +62,12 @@ public class CartiFragment extends Fragment {
                 }
             });
 
-            if (i <= 39)
+            if (key <= 460)
                 linearLayoutVechiul.addView(b);
             else
                 linearLayoutNoul.addView(b);
 
         }
-
         return rootView;
     }
 

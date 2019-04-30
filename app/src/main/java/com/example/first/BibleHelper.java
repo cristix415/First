@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 
 public class BibleHelper extends AppCompatActivity {
@@ -18,8 +19,7 @@ public class BibleHelper extends AppCompatActivity {
     private static BibleHelper INSTANCE = null;
     public final String path = "/data/data/com.example.first/databases/";
     public final String NameDB = "VDC2016SQLite3";
-    public String[] carti = new String[67];
-    public int[] booknumber = new int[67];
+    static TreeMap<Integer, String> dictShort = new TreeMap<Integer, String>();
     public String[] capitole = new String[160];
 
     SQLiteDatabase db;
@@ -62,19 +62,20 @@ public class BibleHelper extends AppCompatActivity {
         return (INSTANCE);
     }
 
+    public static String getShortName(int bookNumber) {
+        return dictShort.get(bookNumber);
+    }
+
     public void SetCarti() {
 
         Cursor c = db.rawQuery("select * from books", null);
         c.moveToFirst();
-        int i = 0;
         do {
-            i++;
-            carti[i] = c.getString(c.getColumnIndex("short_name"));
-            booknumber[i] = c.getInt(c.getColumnIndex("book_number"));
+            dictShort.put(c.getInt(c.getColumnIndex("book_number")), c.getString(c.getColumnIndex("short_name")));
+
         } while (c.moveToNext());
 
     }
-
     public int SetNrCapitole(int booknumber) {
 
         Cursor c = db.rawQuery("SELECT COUNT ( DISTINCT chapter)  FROM 'verses' where book_number=" + booknumber, null);
@@ -95,6 +96,27 @@ public class BibleHelper extends AppCompatActivity {
         } while (c.moveToNext());
         Referinta.Verset = lista.size();
         c.close();
+        return lista;
+    }
+
+    public List<Referinta> Search(String cuvinte) {
+        List<Referinta> lista = new ArrayList<Referinta>();
+
+        Cursor c = db.rawQuery("SELECT *  FROM 'verses' where text LIKE \"" + "%" + cuvinte + "%" + "\"", null);
+        c.moveToFirst();
+        do {
+            Referinta ref = new Referinta();
+            ref.BookNumbe = c.getInt(c.getColumnIndex("book_number"));
+            ref.Short_nam = c.getString(c.getColumnIndex("book_number"));
+            ref.Capito = c.getInt(c.getColumnIndex("chapter"));
+            ref.Verse = c.getInt(c.getColumnIndex("verse"));
+            ref.VersetTex = c.getString(c.getColumnIndex("text"));
+            lista.add(ref);
+        } while (c.moveToNext());
+        // Referinta.Verset = lista.size();
+        c.close();
+
+
         return lista;
     }
 

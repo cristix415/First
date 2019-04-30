@@ -5,13 +5,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,51 +56,14 @@ public class Carti extends AppCompatActivity implements ILegatura {
         // Do something here to display that article
         Log.e("fragmentCarti", "Activity" + position);
         if (nivel == 1) {
-            //   capitoleFragment = (CapitoleFragment)getSupportFragmentManager().findFragmentById(R.id.fragmentcapitole);
-            //    if (capitoleFragment != null)
+
 
             capitoleFragment.updateArticleView(position);
-//            else {
-//                CapitoleFragment newFragment = new CapitoleFragment();
-//                Bundle args = new Bundle();
-//                args.putInt("position", position);
-//                newFragment.setArguments(args);
-//
-//                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//                //   articleFrag.updateArticleView(position);
-//
-//                // Replace whatever is in the fragment_container view with this fragment,
-//                // and add the transaction to the back stack so the user can navigate back
-//                transaction.replace(R.id.linear, newFragment);
-//                transaction.addToBackStack(null);
-////newFragment.updateArticleView(position);
-//                // Commit the transaction
-//                transaction.commit();
-//                String ff = "hh";
-//            }
+
         } else if (nivel == 2) {
-//            verseteFragment = (VerseteFragment)
-//                    getSupportFragmentManager().findFragmentById(R.id.fragmentversete);
-//            if (verseteFragment != null)
+
             verseteFragment.updateArticleView(position);
-//            else {
-//                VerseteFragment newFragment = new VerseteFragment();
-//                Bundle args = new Bundle();
-//                args.putInt("position", position);
-//                newFragment.setArguments(args);
-//
-//                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//                //   articleFrag.updateArticleView(position);
-//
-//                // Replace whatever is in the fragment_container view with this fragment,
-//                // and add the transaction to the back stack so the user can navigate back
-//                transaction.replace(R.id.linearV, newFragment);
-//                transaction.addToBackStack(null);
-////newFragment.updateArticleView(position);
-//                // Commit the transaction
-//                transaction.commit();
-//                String ff = "hh";
-//            }
+
         }
 
 
@@ -109,8 +73,6 @@ public class Carti extends AppCompatActivity implements ILegatura {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carti);
-//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        //      getSupportActionBar().setCustomView(R.layout.custom_actionbar);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -120,37 +82,6 @@ public class Carti extends AppCompatActivity implements ILegatura {
         tabLayout.setupWithViewPager(viewPager);
 
 
-        //EditText et = (LinearLayout)  .getRootView().findViewById(R.id.linearLayoutVechiull);
-        //   LinearLayout linearLayoutVechiull = findViewById(R.id.linearLayoutVechiul);
-        //  LinearLayout linearLayoutNpull = findViewById(R.id.linearLayouttt);
-        //Log.d("Name", et.getText().toString());
-
-        // linearLayoutVechiull = findViewById(R.id.linearLayoutVechiul);
-        //linearLayoutNpull = findViewById(R.id.linearLayoutNoul);
-
-        //      bibliaInstance = BibleHelper.getInstance(Carti.this);
-
-//        for (int i = 1; i <= 66; i++) {
-//
-//            Button b = new Button(this);
-//            b.setText(bibliaInstance.carti[i]);
-//            b.setId(bibliaInstance.booknumber[i]);
-//
-//            b.setOnClickListener(this);
-//            b.setWidth(80);
-//            b.setTextSize(20);
-//            ViewCompat.setElevation(b, 10);
-//            b.setBackgroundResource(R.drawable.button_carte);
-//
-//            //  LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-//            //  layoutParams.setMargins(50, 80, 50, 50);
-//            //             if (i<=39)
-//            //           linearLayoutVechiull.addView(b);
-////else
-//            //                  linearLayoutNpull.addView(b);
-//
-//        }
-
     }
 
 
@@ -159,34 +90,25 @@ public class Carti extends AppCompatActivity implements ILegatura {
         adapter.addFragment(new CartiFragment(), "CARTI");
         adapter.addFragment(new CapitoleFragment(), "CAPITOLE");
         adapter.addFragment(new VerseteFragment(), "VERSETE");
+
+
         viewPager.setAdapter(adapter);
     }
 
-    @Override
-//    public void onClick(View v) {
-//        v.setBackgroundColor(Color.RED);
-//        Referinta.BookNumber = v.getId();
-//        Referinta.Short_name = ((Button) v).getText().toString();
-//        Referinta.NrCapitole = bibliaInstance.SetNrCapitole(v.getId());
-//        Intent intent = new Intent(this, CapitoleActivity.class);
-//
-//        startActivity(intent);
-//        finish();
-//
-//    }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         MenuItem.OnActionExpandListener onActionExpandListener = new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-                Toast.makeText(Carti.this, "Action View Expender", Toast.LENGTH_SHORT).show();
+                Common.setVisibilityVisible(findViewById(R.id.cautareExtensie), (LinearLayout) findViewById(R.id.container));
+                OpenSearchFragment();
                 return true;
             }
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                Toast.makeText(Carti.this, "Action View Collapsed", Toast.LENGTH_SHORT).show();
+                Common.setVisibilityGone(findViewById(R.id.cautareExtensie), (LinearLayout) findViewById(R.id.container));
                 return true;
             }
         };
@@ -200,7 +122,13 @@ public class Carti extends AppCompatActivity implements ILegatura {
         viewPager.setCurrentItem(item, smoothScroll);
     }
 
+    void OpenSearchFragment() {
 
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.searchLayout, new SearchFragment());
+        transaction.commit();
+    }
 }
 
 class ViewPagerAdapter extends FragmentPagerAdapter {
