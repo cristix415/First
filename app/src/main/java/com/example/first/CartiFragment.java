@@ -44,10 +44,13 @@ public class CartiFragment extends Fragment {
             Integer key = entry.getKey();
             String value = entry.getValue();
 
+            //         int buttonStyle = R.style.butoane;
+            //      Button b = new Button(new ContextThemeWrapper(getActivity(), buttonStyle), null, buttonStyle);
 
             Button b = new Button(getActivity());
             b.setText(value);
             b.setId(key);
+            b.setBackgroundResource(R.drawable.butoane);
 
             b.setOnClickListener(new View.OnClickListener() {
                 @Override

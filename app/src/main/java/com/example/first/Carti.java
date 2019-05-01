@@ -12,7 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,8 @@ public class Carti extends AppCompatActivity implements ILegatura {
     private ViewPagerAdapter adapter;
     private ViewPager viewPager;
     private Toolbar toolbar;
+    android.support.v7.widget.SearchView searchView;
+    ;
 
     @Override
     public void onAttachFragment(Fragment fragment) {
@@ -98,11 +102,15 @@ public class Carti extends AppCompatActivity implements ILegatura {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+
+        MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
+        searchView = (android.support.v7.widget.SearchView) myActionMenuItem.getActionView();
+
         MenuItem.OnActionExpandListener onActionExpandListener = new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
                 Common.setVisibilityVisible(findViewById(R.id.cautareExtensie), (LinearLayout) findViewById(R.id.container));
-                OpenSearchFragment();
+                //OpenSearchFragment();
                 return true;
             }
 
@@ -112,6 +120,7 @@ public class Carti extends AppCompatActivity implements ILegatura {
                 return true;
             }
         };
+
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchItem.setOnActionExpandListener(onActionExpandListener);
         return true;
@@ -128,6 +137,22 @@ public class Carti extends AppCompatActivity implements ILegatura {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.searchLayout, new SearchFragment());
         transaction.commit();
+    }
+
+    public void Cauta(View v) {
+
+        String cuvinte = searchView.getQuery().toString();
+        RadioGroup rg = findViewById(R.id.radioGroup);
+
+        int index = rg.indexOfChild(findViewById(rg.getCheckedRadioButtonId()));
+
+        SearchFragment sFrag = SearchFragment.newInstance(cuvinte, Integer.toString(index));
+
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.searchLayout, sFrag);
+        transaction.commit();
+
     }
 }
 

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -30,11 +31,11 @@ public class TextActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //menu.findItem(R.id.action_search);
+        TextView referintaTextview = findViewById(R.id.referintaTextview);
+        referintaTextview.setText(Referinta.Short_name + " " + Referinta.Capitol);
 
         LinearLayout linearLayout = findViewById(R.id.linearLayout);
-
         AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
-
         // txtView.startAnimation(fadeOut);
         fadeIn.setDuration(4000);
         fadeIn.setFillAfter(true);
@@ -47,7 +48,7 @@ public class TextActivity extends AppCompatActivity {
             t.setId(i);
             //  t.setTag(i + " " + message);
             t.setTextSize(18);
-
+            t.setBackgroundResource(R.drawable.textversete);
             t.setText(Html.fromHtml("<html><body style='text-align:justify;'><font color=red size=1>" + "   " + i +
                     "</font> <font color=black size=10>" + Referinta.ListVerses.get(i - 1) + "</font></body></html>"));
 
@@ -105,7 +106,11 @@ public class TextActivity extends AppCompatActivity {
     public void Cauta(View v) {
 
         String cuvinte = searchView.getQuery().toString();
-        SearchFragment sFrag = SearchFragment.newInstance(cuvinte, "daaa");
+        RadioGroup rg = findViewById(R.id.radioGroup);
+
+        int index = rg.indexOfChild(findViewById(rg.getCheckedRadioButtonId()));
+
+        SearchFragment sFrag = SearchFragment.newInstance(cuvinte, Integer.toString(index));
 
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

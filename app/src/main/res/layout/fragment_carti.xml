@@ -4,40 +4,92 @@
     android:id="@+id/daa"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     tools:context="CartiFragment">
 
+    <LinearLayout
+        android:id="@+id/linearLayoutVechiulTitlu"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:text="VECH I UL   TEST A  MENT"
+            android:textAlignment="center"
+            android:textColor="#F00"
+            android:textSize="24dp" />
+    </LinearLayout>
+
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="4">
+
 
         <LinearLayout
-
+            android:id="@+id/linearLayoutVechiul"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
 
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:id="@+id/linearLayoutVechiul"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayoutNoul"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-            </LinearLayout>
+            android:orientation="vertical">
 
 
         </LinearLayout>
     </ScrollView>
 
+    <LinearLayout
+        android:id="@+id/linearLayoutGol"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:text="    "
+            android:textColor="#F00"
+            android:textSize="24dp" />
+    </LinearLayout>
+
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="4">
+
+
+        <LinearLayout
+            android:id="@+id/linearLayoutNoul"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:orientation="vertical">
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutNoulTitlu"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:text="NOUL  TEST A MENT "
+            android:textAlignment="center"
+            android:textColor="#F00"
+            android:textSize="24dp" />
+    </LinearLayout>
 </LinearLayout>
