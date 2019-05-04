@@ -1,6 +1,10 @@
 package com.example.first;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +13,7 @@ import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -18,11 +23,12 @@ import android.widget.TextView;
 
 public class TextActivity extends AppCompatActivity {
     MenuItem item;
-    private TextView t;
+    public TextView textViewVerset;
     TextView carteActionbar, capitolActionbar;
     Button cautaActionbar;
     Toolbar toolbar;
     android.support.v7.widget.SearchView searchView;
+    private ValueAnimator anim, animRevert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +37,25 @@ public class TextActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //menu.findItem(R.id.action_search);
-        TextView referintaTextview = findViewById(R.id.referintaTextview);
-        referintaTextview.setText(Referinta.Short_name + " " + Referinta.Capitol);
+        Button referintaButton = findViewById(R.id.referintaButon);
+        referintaButton.setText(Referinta.Short_name + " " + Referinta.Capitol);
 
-        LinearLayout linearLayout = findViewById(R.id.linearLayout);
-        AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
-        // txtView.startAnimation(fadeOut);
-        fadeIn.setDuration(4000);
-        fadeIn.setFillAfter(true);
+        final LinearLayout linearLayout = findViewById(R.id.linearLayout);
+        final ValueAnimator anim = new ValueAnimator();
+        final ValueAnimator animRevert = new ValueAnimator();
+        anim.setIntValues(Color.TRANSPARENT, Color.GRAY);
+        anim.setEvaluator(new ArgbEvaluator());
+
+
+        this.anim = anim;
+
+
+        // fadeIn.setFillAfter(true);
         final ScrollView scroll = findViewById(R.id.scroll_id);
         for (int i = 1; i <= Referinta.ListVerses.size(); i++) {
 
             // String verset = cc.getString(cc.getColumnIndex("poemtext"));
-            t = new TextView(this);
+            TextView t = new TextView(this);
             //t.setText(i + ". " + versetetext[i]);
             t.setId(i);
             //  t.setTag(i + " " + message);
@@ -57,13 +69,36 @@ public class TextActivity extends AppCompatActivity {
 
             linearLayout.addView(t);
             if (i == Referinta.Verset) {
-                t.startAnimation(fadeIn);
+                //         t.startAnimation(fadeIn);
+                textViewVerset = t;
 
-                t.getParent().requestChildFocus(t, t);
-                //    scroll.scrollTo(100, (int) t.getY());
+
+                t.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+                    @Override
+
+                    public void onGlobalLayout() {
+                        scroll.scrollTo(0, textViewVerset.getTop());
+                        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                                textViewVerset.setBackgroundColor((Integer) valueAnimator.getAnimatedValue());
+                            }
+                        });
+
+
+                        anim.setDuration(1000);
+                        anim.start();
+
+
+                    }
+                });
+
             }
         }
+
     }
+
 
     public void DisplayCarti(View v) {
         Intent startIntent = new Intent(this, Carti.class);
@@ -116,6 +151,14 @@ public class TextActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.searchLayout, sFrag);
         transaction.commit();
+
+    }
+
+    public void Rasfoieste(View v) {
+
+        Intent startIntent = new Intent(this, Carti.class);
+        // startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startIntent);
 
     }
 

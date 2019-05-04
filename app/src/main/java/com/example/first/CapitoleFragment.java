@@ -74,7 +74,7 @@ public class CapitoleFragment extends Fragment {
 
         for (int i = 1; i <= Referinta.NrCapitole; i++) {
             Button b = new Button(getActivity());
-            b.setText("Cap. " + i);
+            b.setText("" + i);
             b.setId(i);
             b.setBackgroundResource(R.drawable.butoane);
             b.setOnClickListener(new View.OnClickListener() {

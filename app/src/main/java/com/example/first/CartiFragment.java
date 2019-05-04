@@ -58,6 +58,7 @@ public class CartiFragment extends Fragment {
                     Referinta.BookNumber = v.getId();
                     Referinta.Short_name = ((Button) v).getText().toString();
                     Referinta.NrCapitole = bibliaInstance.SetNrCapitole(v.getId());
+
                     callback.onArticleSelected(Referinta.NrCapitole, 1);
                     ((Carti) getActivity()).setCurrentItem(1, true);
 

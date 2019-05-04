@@ -154,6 +154,11 @@ public class Carti extends AppCompatActivity implements ILegatura {
         transaction.commit();
 
     }
+    public void Rasfoieste(View v) {
+
+
+
+    }
 }
 
 class ViewPagerAdapter extends FragmentPagerAdapter {

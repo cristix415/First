@@ -6,14 +6,10 @@
     <item
         android:id="@+id/action_search"
         android:icon="@mipmap/search"
+
         android:title="Cauta"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView" />
-    <item
-        android:id="@+id/ttt"
-        android:title="tot"
-        app:actionViewClass="android.widget.TextView"
-        app:showAsAction="collapseActionView">
+        app:showAsAction="ifRoom|collapseActionView" >
 
     </item>
 

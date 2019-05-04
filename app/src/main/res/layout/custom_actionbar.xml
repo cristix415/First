@@ -33,12 +33,14 @@
 
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-                    <TextView
-                        android:id="@+id/referintaTextview"
+                    <Button
+                        android:id="@+id/referintaButon"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:textSize="24dp" />
+                        android:gravity="center_horizontal|center_vertical"
+                        android:onClick="Rasfoieste"
+                        android:background="@color/colorPrimary"
+                        android:textSize="18dp" />
                 </android.support.v7.widget.Toolbar>
 
                 <LinearLayout
